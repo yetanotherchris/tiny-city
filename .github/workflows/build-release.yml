@@ -30,7 +30,7 @@ jobs:
       run: dotnet publish -c Release --os win --arch x64
 
     - name: Upload release as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tinycity.exe
         path: ./bin/Release/net8.0/win-x64/publish/tinycity.exe
