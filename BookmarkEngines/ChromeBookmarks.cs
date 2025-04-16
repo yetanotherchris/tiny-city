@@ -10,9 +10,23 @@ namespace TinyCity.BookmarkEngines
 
         public ChromeBookmarks()
         {
-            string localAppDataPath = Environment.GetEnvironmentVariable("LOCALAPPDATA");
-            string chromePath = Path.Combine(localAppDataPath, "Google","Chrome","User Data", "Default"); // Windows
-            string bookmarksPath = Path.Combine(chromePath, "Bookmarks.bak");
+            string chromePath = "";
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                string homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                chromePath = Path.Combine(homePath, ".config","google-chrome","Default");
+            }
+            else if (Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                // todo
+            }
+            else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                string localAppDataPath = Environment.GetEnvironmentVariable("LOCALAPPDATA");
+                chromePath = Path.Combine(localAppDataPath, "Google","Chrome","User Data", "Default"); // Windows
+            }
+
+            string bookmarksPath = Path.Combine(chromePath, "Bookmarks");
             if (!Path.Exists(bookmarksPath))
             {
                 AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{bookmarksPath}' so skipping.[/]");
