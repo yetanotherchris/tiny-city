@@ -7,7 +7,7 @@ using TinyCity.Model;
 
 namespace TinyCity.Commands
 {
-    public class SearchSettings : CommandSettings
+    public class SearchCommandSettings : CommandSettings
     {
         [CommandOption("-l|--launch")]
         [Description("Launch the first bookmark found din your default browser. If no bookmarks are found, nothing will happen.")]
@@ -25,7 +25,7 @@ namespace TinyCity.Commands
     }
 
     // https://spectreconsole.net/cli/introduction
-    public class SearchCommand : Command<SearchSettings>
+    public class SearchCommand : Command<SearchCommandSettings>
     {
         private List<BookmarkNode> _combinedBookmarks;
 
@@ -36,7 +36,7 @@ namespace TinyCity.Commands
             _combinedBookmarks.AddRange(markdownBookmarks.Bookmarks);
         }
 
-        public override int Execute(CommandContext context, SearchSettings settings)
+        public override int Execute(CommandContext context, SearchCommandSettings settings)
         {
             AnsiConsole.MarkupLine($"[bold green]{_combinedBookmarks.Count} bookmarks in total.[/]");
 

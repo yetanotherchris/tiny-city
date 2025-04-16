@@ -10,7 +10,7 @@ namespace TinyCity.BookmarkEngines
     {
         public List<BookmarkNode> Bookmarks { get; set; } = new List<BookmarkNode>();
 
-        public MarkdownBookmarks()
+        public MarkdownBookmarks(TinyCitySettings settings)
         {
             string home = Environment.GetEnvironmentVariable("HOME");
 

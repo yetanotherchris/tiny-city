@@ -5,22 +5,20 @@ using TinyCity.Model;
 
 namespace TinyCity.Commands
 {
-    public class ListSettings : CommandSettings
+    public class ListCommandSettings : CommandSettings
     {
     }
 
-    public class ListCommand : Command<ListSettings>
+    public class ListCommand : Command<ListCommandSettings>
     {
         private List<BookmarkNode> _combinedBookmarks;
 
         public ListCommand(ChromeBookmarks chromeBookmarks, MarkdownBookmarks markdownBookmarks)
         {
-            _combinedBookmarks = new List<BookmarkNode>();
-            _combinedBookmarks.AddRange(chromeBookmarks.FlattenedBookmarks);
-            _combinedBookmarks.AddRange(markdownBookmarks.Bookmarks);
+            _combinedBookmarks = [.. chromeBookmarks.FlattenedBookmarks, .. markdownBookmarks.Bookmarks];
         }
 
-        public override int Execute(CommandContext context, ListSettings settings)
+        public override int Execute(CommandContext context, ListCommandSettings settings)
         {
             AnsiConsole.MarkupLine($"[bold green]{_combinedBookmarks.Count} bookmarks[/]");
 

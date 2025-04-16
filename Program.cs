@@ -19,11 +19,14 @@ namespace TinyCity
                 config.SetApplicationName("tinycity");
 
                 config.AddCommand<SearchCommand>("search")
-                      .WithDescription("Search the bookmarks");
+                      .WithDescription("Search the bookmarks.");
 
                 config.AddCommand<ListCommand>("list")
                       .WithAlias("ls")
-                      .WithDescription("List all bookmarks");
+                      .WithDescription("List all bookmarks.");
+
+                config.AddCommand<ConfigCommand>("config")
+                      .WithDescription("Configure bookmark sources.");
             });
 
             return await app.RunAsync(args);
@@ -31,9 +34,12 @@ namespace TinyCity
 
         static ServiceCollection SetupIoC()
         {
+            var settings = TinyCitySettings.Load();
+
             var services = new ServiceCollection();
             services.AddSingleton<ChromeBookmarks>();
             services.AddSingleton<MarkdownBookmarks>();
+            services.AddSingleton<TinyCitySettings>(settings);
 
             return services;
         }
