@@ -31,9 +31,14 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+
+    - name: Instal Git version
+      uses: gittools/actions/gitversion/setup@v3.2.0
+      with:
+        versionSpec: '6.2.0'
     
     - name: Get version
-      uses: gittools/actions/gitversion/setup@v3.2.0
+      uses: gittools/actions/gitversion/execute@v3.2.0
       id: get_version
         
     - name: Restore dependencies
