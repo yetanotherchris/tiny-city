@@ -6,21 +6,21 @@ The terminal output includes links that can be clicked, using the Spectre consol
 
 ## Download
 
-[![GitHub Release](https://img.shields.io/github/v/release/yetanotherchris/tiny-city?logo=github&sort=semver)](https://github.com/yetanotherchris/releases/releases/latest)
+[![GitHub Release](https://img.shields.io/github/v/release/yetanotherchris/tiny-city?logo=github&sort=semver)](https://github.com/yetanotherchris/tiny-city/releases/latest/)
 
 You can download the latest version of tinycity using PowerShell or Bash:
 
 ```powershell
 # PowerShell
-Invoke-WebRequest -Uri "https://github.com/yetanotherchris/tiny-city/releases/download/latest/tinycity.exe" -OutFile "tinycity.exe"
+Invoke-WebRequest -Uri "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity.exe" -OutFile "tinycity.exe"
 ```
 
 ```bash
 # Bash
-wget -O tinycity "https://github.com/yetanotherchris/tiny-city/releases/download/latest/tinycity"
+wget -O tinycity "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity"
 
 # Or with curl
-curl -o tinycity -L "https://github.com/yetanotherchris/tiny-city/releases/download/latest/tinycity"
+curl -o tinycity -L "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity"
 ```
 
 You can also download the latest release directly from the [Releases page](https://github.com/yetanotherchris/tiny-city/releases).
