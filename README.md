@@ -18,7 +18,7 @@ Invoke-WebRequest -Uri "https://github.com/yetanotherchris/tiny-city/releases/do
 wget -O tinycity.exe "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.9/tinycity"
 
 # Or with curl
-curl -L "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.9/tinycity.exe" -o tinycity
+curl -L "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.9/tinycity" -o tinycity
 ```
 
 You can also download the latest release directly from the [Releases page](https://github.com/yetanotherchris/tiny-city/releases).
