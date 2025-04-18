@@ -10,15 +10,15 @@ You can download the latest version of tinycity using PowerShell or Bash:
 
 ```powershell
 # PowerShell
-Invoke-WebRequest -Uri "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.10/tinycity.exe" -OutFile "tinycity.exe"
+Invoke-WebRequest -Uri "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.12/tinycity.exe" -OutFile "tinycity.exe"
 ```
 
 ```bash
 # Bash
-wget -O tinycity "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.10/tinycity"
+wget -O tinycity "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.12/tinycity"
 
 # Or with curl
-curl -o tinycity -L "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.10/tinycity"
+curl -o tinycity -L "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.12/tinycity"
 ```
 
 You can also download the latest release directly from the [Releases page](https://github.com/yetanotherchris/tiny-city/releases).
