@@ -4,6 +4,14 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
+    paths-ignore: 
+      - ".github/**"
+      - ".gitignore"
+      - "README.md"
+      - "LICENSE"
+      - "CHANGELOG.md"
+      - "docs/**"
+
   pull_request:
     branches: [ "main" ]
 
