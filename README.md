@@ -38,15 +38,16 @@ OPTIONS:
 COMMANDS:
     search <query>    Search the bookmarks
     list              List all bookmarks
+    config            Configure bookmark sources
 ```
 
 ### Examples
 ```
-./tinycity
 ./tinycity ls
 ./tinycity search "google" -urls
 ./tinycity search "gmail"
-./tinycity search "openrouter" -- launch
+./tinycity search "openrouter" --launch
+./tinycity config -a more-bookmarks.md
 ```
 
 If you clone the source using `git clone` (requires [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) or later):
