@@ -11,7 +11,7 @@ on:
       - "LICENSE"
       - "CHANGELOG.md"
       - "docs/**"
-      - gitversion.yml
+      - "gitversion.yml"
       - ".editorconfig"
 
   pull_request:
