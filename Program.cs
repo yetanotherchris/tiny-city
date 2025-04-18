@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 using Spectre.Console.Cli.Extensions.DependencyInjection;
 using TinyCity.BookmarkEngines;
@@ -15,7 +16,7 @@ namespace TinyCity
             var app = new CommandApp(registrar);
             app.Configure(config =>
             {
-                config.SetApplicationVersion("1.0.0");
+                config.SetApplicationVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString());
                 config.SetApplicationName("tinycity");
 
                 config.AddCommand<SearchCommand>("search")
