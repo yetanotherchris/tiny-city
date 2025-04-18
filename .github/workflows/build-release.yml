@@ -32,7 +32,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Instal Git version
+    - name: Install Git version
       uses: gittools/actions/gitversion/setup@v3.2.0
       with:
         versionSpec: '6.2.0'
@@ -45,22 +45,22 @@ jobs:
       run: dotnet restore
       
     - name: Publish Win x64 exe
-      run: dotnet publish -c Release --os win --arch x64 -p:Version=${{ steps.get_version.outputs.GitVersion_FullSemVer  }}
+      run: dotnet publish -c Release --os win --arch x64 -p:Version=${{ steps.get_version.outputs.AssemblySemFileVer  }}
 
     - name: Publish Linux x64 exe
-      run: dotnet publish -c Release --os linux --arch x64 -p:Version=${{ steps.get_version.outputs.GitVersion_FullSemVer  }}
+      run: dotnet publish -c Release --os linux --arch x64 -p:Version=${{ steps.get_version.outputs.AssemblySemFileVer  }}
 
     - name: Upload Win build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: win-x64-build-v${{ steps.get_version.outputs.GitVersion_FullSemVer  }}
+        name: win-x64-build-v${{ steps.get_version.outputs.AssemblySemFileVer  }}
         path: '**/bin/Release/net*/win-x64/publish/tinycity.exe'
         if-no-files-found: error
 
     - name: Upload Linux build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: linux-x64-build-v${{ steps.get_version.outputs.GitVersion_FullSemVer  }}
+        name: linux-x64-build-v${{ steps.get_version.outputs.AssemblySemFileVer  }}
         path: '**/bin/Release/net*/linux-x64/publish/tinycity'
         if-no-files-found: error
 
@@ -68,8 +68,8 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: v${{ steps.get_version.outputs.GitVersion_FullSemVer  }}
-        name: Release v${{ steps.get_version.outputs.GitVersion_FullSemVer  }}
+        tag_name: v${{ steps.get_version.outputs.AssemblySemFileVer  }}
+        name: Release v${{ steps.get_version.outputs.AssemblySemFileVer  }}
         draft: false
         prerelease: false
         files: |
