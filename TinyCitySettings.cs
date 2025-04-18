@@ -42,6 +42,7 @@ namespace TinyCity
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
                 homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                homePath = Path.Combine(homePath, ".config");
             }
             else if (Environment.OSVersion.Platform == PlatformID.MacOSX)
             {
