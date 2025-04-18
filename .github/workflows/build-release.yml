@@ -46,22 +46,22 @@ jobs:
       run: dotnet restore
       
     - name: Publish Win x64 exe
-      run: dotnet publish -c Release --os win --arch x64 -p:Version=${{ steps.get_version.outputs.AssemblySemFileVer  }}
+      run: dotnet publish -c Release --os win --arch x64 -p:Version=${{ steps.get_version.outputs.MajorMinorPatch  }}
 
     - name: Publish Linux x64 exe
-      run: dotnet publish -c Release --os linux --arch x64 -p:Version=${{ steps.get_version.outputs.AssemblySemFileVer  }}
+      run: dotnet publish -c Release --os linux --arch x64 -p:Version=${{ steps.get_version.outputs.MajorMinorPatch  }}
 
     - name: Upload Win build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: win-x64-build-v${{ steps.get_version.outputs.AssemblySemFileVer  }}
+        name: win-x64-build-v${{ steps.get_version.outputs.MajorMinorPatch  }}
         path: '**/bin/Release/net*/win-x64/publish/tinycity.exe'
         if-no-files-found: error
 
     - name: Upload Linux build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: linux-x64-build-v${{ steps.get_version.outputs.AssemblySemFileVer  }}
+        name: linux-x64-build-v${{ steps.get_version.outputs.MajorMinorPatch  }}
         path: '**/bin/Release/net*/linux-x64/publish/tinycity'
         if-no-files-found: error
 
@@ -69,8 +69,8 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: v${{ steps.get_version.outputs.AssemblySemFileVer  }}
-        name: Release v${{ steps.get_version.outputs.AssemblySemFileVer  }}
+        tag_name: v${{ steps.get_version.outputs.MajorMinorPatch  }}
+        name: Release v${{ steps.get_version.outputs.MajorMinorPatch  }}
         draft: false
         prerelease: false
         make_latest: true
