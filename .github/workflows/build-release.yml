@@ -64,7 +64,7 @@ jobs:
         draft: false
         prerelease: false
         files: |
-            '**/bin/Release/net*/win-x64/publish/tinycity.exe'
-            '**/bin/Release/net*/linux-x64/publish/tinycity'
+            **/bin/Release/net*/win-x64/publish/tinycity.exe
+            **/bin/Release/net*/linux-x64/publish/tinycity
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
