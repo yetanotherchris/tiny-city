@@ -11,6 +11,8 @@ on:
       - "LICENSE"
       - "CHANGELOG.md"
       - "docs/**"
+      - gitversion.yml
+      - ".editorconfig"
 
   pull_request:
     branches: [ "main" ]
