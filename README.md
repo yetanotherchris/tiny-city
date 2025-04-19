@@ -11,15 +11,12 @@ The terminal output includes links that can be clicked, using the Spectre consol
 You can download the latest version of tinycity using PowerShell or Bash:
 
 ```powershell
-# PowerShell
 Invoke-WebRequest -Uri "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity.exe" -OutFile "tinycity.exe"
 ```
-
 ```bash
-# Bash
 wget -O tinycity "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity"
-
-# Or with curl
+```
+```bash
 curl -o tinycity -L "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity"
 ```
 
@@ -47,6 +44,7 @@ COMMANDS:
 ./tinycity search "google" -urls
 ./tinycity search "gmail"
 ./tinycity search "openrouter" --launch
+./tinycity config -b brave
 ./tinycity config -a more-bookmarks.md
 ```
 
