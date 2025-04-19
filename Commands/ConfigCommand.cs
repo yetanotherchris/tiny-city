@@ -1,6 +1,7 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
+using System.Linq;
 
 namespace TinyCity.Commands
 {
@@ -9,7 +10,11 @@ namespace TinyCity.Commands
     {
         [CommandOption("-a|--add-markdown-file")]
         [Description("Adds a markdown file to scan for links.")]
-        public string MarkdownFile { get; set; }
+        public string AddMarkdownFile { get; set; }
+
+        [CommandOption("-r|--remove-markdown-file")]
+        [Description("Remove a markdown file from the config.")]
+        public string RemoveMarkdownFile { get; set; }
 
         [CommandOption("-s|--show")]
         [Description("Show the current configuration.")]
@@ -35,17 +40,30 @@ namespace TinyCity.Commands
                     AnsiConsole.MarkupLine($" - {file}");
                 }
             }
-            else if (!string.IsNullOrEmpty(settings.MarkdownFile))
+            else if (!string.IsNullOrEmpty(settings.AddMarkdownFile))
             {
-                if (!_settings.MarkdownFiles.Contains(settings.MarkdownFile))
+                if (!_settings.MarkdownFiles.Contains(settings.AddMarkdownFile))
                 {
-                    _settings.MarkdownFiles.Add(settings.MarkdownFile);
+                    _settings.MarkdownFiles.Add(settings.AddMarkdownFile);
                     TinyCitySettings.Save(_settings);
-                    AnsiConsole.MarkupLine($"[bold green]Added markdown file: {settings.MarkdownFile}[/]");
+                    AnsiConsole.MarkupLine($"[bold green]Added markdown file: {settings.AddMarkdownFile}[/]");
                 }
                 else
                 {
-                    AnsiConsole.MarkupLine($"[bold red]Markdown file '{settings.MarkdownFile}' already exists.[/]");
+                    AnsiConsole.MarkupLine($"[bold red]Markdown file '{settings.AddMarkdownFile}' already exists.[/]");
+                }
+            }
+            else if (!string.IsNullOrEmpty(settings.RemoveMarkdownFile))
+            {
+                if (_settings.MarkdownFiles.Contains(settings.RemoveMarkdownFile))
+                {
+                    _settings.MarkdownFiles.Remove(settings.RemoveMarkdownFile);
+                    TinyCitySettings.Save(_settings);
+                    AnsiConsole.MarkupLine($"[bold green]Removed markdown file: {settings.RemoveMarkdownFile}[/]");
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine($"[bold yellow]Markdown file '{settings.RemoveMarkdownFile}' wasn't found in the configuration.[/]");
                 }
             }
 

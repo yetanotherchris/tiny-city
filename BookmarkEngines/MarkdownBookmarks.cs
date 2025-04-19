@@ -12,32 +12,34 @@ namespace TinyCity.BookmarkEngines
 
         public MarkdownBookmarks(TinyCitySettings settings)
         {
-            string home = Environment.GetEnvironmentVariable("HOME");
-
-            if (string.IsNullOrEmpty(home))
-            {
-                home = Environment.GetEnvironmentVariable("USERPROFILE");
-            }
-
-            string markdownPath = Path.Combine(home,"bookmarks.md");
-            if (!Path.Exists(markdownPath))
-            {
-                AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{markdownPath}' so skipping.[/]");
-                return;
-            }
-
-            string markdown = File.ReadAllText(markdownPath);
-            var document = Markdown.Parse(markdown);
-            //AnsiConsole.MarkupLine($" - Loaded {markdownPath}.");
-
             Bookmarks = new List<BookmarkNode>();
+
+            foreach (var file in settings.MarkdownFiles)
+            {
+                if (File.Exists(file))
+                {
+                    var bookmarks = ParseMarkdownFile(file);
+                    Bookmarks.AddRange(bookmarks);
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{file}' so skipping.[/]");
+                }
+            }
+        }
+
+        private List<BookmarkNode> ParseMarkdownFile(string markdown)
+        {
+            var document = Markdown.Parse(markdown);
+
+            var bookmarks = new List<BookmarkNode>();
             foreach (var inline in document.Descendants<LinkInline>())
             {
                 if (inline is LinkInline linkInline)
                 {
                     string linkText = linkInline.FirstChild?.ToString() ?? string.Empty;
                     string url = linkInline.Url;
-                    
+
                     if (!string.IsNullOrEmpty(linkText) && !string.IsNullOrEmpty(url))
                     {
                         var bookmark = new BookmarkNode
@@ -48,10 +50,12 @@ namespace TinyCity.BookmarkEngines
                             Type = "url"
                         };
 
-                        Bookmarks.Add(bookmark);
+                        bookmarks.Add(bookmark);
                     }
                 }
             }
+
+            return bookmarks;
         }
     }
 }

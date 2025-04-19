@@ -19,10 +19,6 @@ namespace TinyCity
                 settings = JsonSerializer.Deserialize<TinyCitySettings>(json) ?? new TinyCitySettings();
             }
 
-            if (!settings.MarkdownFiles.Contains("bookmarks.md"))
-            {
-                settings.MarkdownFiles.Add("bookmarks.md");
-            }
             settings.HomeDirectory = homeDirectory;
             return settings;
         }
