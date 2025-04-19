@@ -12,14 +12,14 @@ namespace TinyCity.BookmarkEngines
 
         public MarkdownBookmarks(TinyCitySettings settings)
         {
-            Bookmarks = new List<BookmarkNode>();
-
             foreach (var file in settings.MarkdownFiles)
             {
                 if (File.Exists(file))
                 {
                     var bookmarks = ParseMarkdownFile(file);
                     Bookmarks.AddRange(bookmarks);
+
+                    AnsiConsole.MarkupLine($" - Loaded {bookmarks.Count} bookmarks from '{file}'.");
                 }
                 else
                 {

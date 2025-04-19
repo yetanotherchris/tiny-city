@@ -29,11 +29,11 @@ namespace TinyCity.Commands
     {
         private List<BookmarkNode> _combinedBookmarks;
 
-        public SearchCommand(ChromeBookmarks chromeBookmarks, MarkdownBookmarks markdownBookmarks)
+        public SearchCommand(ChromeBookmarks chromeBookmarks, MarkdownBookmarks markdownBookmarks, HtmlBookmarks htmlBookmarks)
         {
             _combinedBookmarks = new List<BookmarkNode>();
-            _combinedBookmarks.AddRange(chromeBookmarks.FlattenedBookmarks);
-            _combinedBookmarks.AddRange(markdownBookmarks.Bookmarks);
+            _combinedBookmarks = [.. chromeBookmarks.FlattenedBookmarks, .. markdownBookmarks.Bookmarks, .. htmlBookmarks.Bookmarks];
+            _combinedBookmarks = _combinedBookmarks.Distinct().ToList();
         }
 
         public override int Execute(CommandContext context, SearchCommandSettings settings)

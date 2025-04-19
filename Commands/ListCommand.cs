@@ -13,14 +13,16 @@ namespace TinyCity.Commands
     {
         private List<BookmarkNode> _combinedBookmarks;
 
-        public ListCommand(ChromeBookmarks chromeBookmarks, MarkdownBookmarks markdownBookmarks)
+        public ListCommand(ChromeBookmarks chromeBookmarks, MarkdownBookmarks markdownBookmarks, HtmlBookmarks htmlBookmarks)
         {
-            _combinedBookmarks = [.. chromeBookmarks.FlattenedBookmarks, .. markdownBookmarks.Bookmarks];
+            _combinedBookmarks = new List<BookmarkNode>();
+            _combinedBookmarks = [.. chromeBookmarks.FlattenedBookmarks, .. markdownBookmarks.Bookmarks, .. htmlBookmarks.Bookmarks];
+            _combinedBookmarks = _combinedBookmarks.Distinct().ToList();
         }
 
         public override int Execute(CommandContext context, ListCommandSettings settings)
         {
-            AnsiConsole.MarkupLine($"[bold green]{_combinedBookmarks.Count} bookmarks[/]");
+            AnsiConsole.MarkupLine($"[bold green]{_combinedBookmarks.Count} unique bookmarks in total.[/]");
 
             foreach (var bookmark in _combinedBookmarks.OrderBy(x => x.Name))
             {

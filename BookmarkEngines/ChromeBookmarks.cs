@@ -24,7 +24,6 @@ namespace TinyCity.BookmarkEngines
                 PropertyNameCaseInsensitive = true
             };
             var bookmarks = JsonSerializer.Deserialize<BookmarksFile>(json, options);
-            AnsiConsole.MarkupLine($" - Loaded {bookmarksPath}.");
 
             FlattenedBookmarks = new List<BookmarkNode>();
             if (bookmarks != null)
@@ -33,10 +32,9 @@ namespace TinyCity.BookmarkEngines
                 var otherNodes = FlattenNodes(bookmarks.Roots.Other);
                 var syncedNodes = FlattenNodes(bookmarks.Roots.Synced);
 
-                FlattenedBookmarks.AddRange(bookmarkBarNodes);
-                FlattenedBookmarks.AddRange(otherNodes);
-                FlattenedBookmarks.AddRange(syncedNodes);
+                FlattenedBookmarks = [.. bookmarkBarNodes, .. otherNodes, .. syncedNodes];
             }
+            AnsiConsole.MarkupLine($" - Loaded {FlattenedBookmarks.Count} bookmarks from '{bookmarksPath}'.");
         }
 
         static List<BookmarkNode> FlattenNodes(BookmarkNode bookmarkNode)
