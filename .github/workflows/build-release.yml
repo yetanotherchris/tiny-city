@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     paths-ignore: 
       - ".github/**"
       - ".gitignore"
@@ -13,9 +15,7 @@ on:
       - "docs/**"
       - "gitversion.yml"
       - ".editorconfig"
-
-  pull_request:
-    branches: [ "main" ]
+      - ".vs/**"
 
 jobs:
   build:
