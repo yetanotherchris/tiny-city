@@ -8,25 +8,10 @@ namespace TinyCity.BookmarkEngines
     {
         public List<BookmarkNode> FlattenedBookmarks { get; set; } = new List<BookmarkNode>();
 
-        public ChromeBookmarks()
+        public ChromeBookmarks(TinyCitySettings settings)
         {
-            string chromePath = "";
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                string homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                chromePath = Path.Combine(homePath, ".config","google-chrome","Default");
-            }
-            else if (Environment.OSVersion.Platform == PlatformID.MacOSX)
-            {
-                // todo
-            }
-            else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                string localAppDataPath = Environment.GetEnvironmentVariable("LOCALAPPDATA");
-                chromePath = Path.Combine(localAppDataPath, "Google","Chrome","User Data", "Default"); // Windows
-            }
+            string bookmarksPath = Path.Combine(settings.BrowserPath, "Bookmarks");
 
-            string bookmarksPath = Path.Combine(chromePath, "Bookmarks");
             if (!Path.Exists(bookmarksPath))
             {
                 AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{bookmarksPath}' so skipping.[/]");
@@ -39,7 +24,7 @@ namespace TinyCity.BookmarkEngines
                 PropertyNameCaseInsensitive = true
             };
             var bookmarks = JsonSerializer.Deserialize<BookmarksFile>(json, options);
-            //AnsiConsole.MarkupLine($" - Loaded {bookmarksPath}.");
+            AnsiConsole.MarkupLine($" - Loaded {bookmarksPath}.");
 
             FlattenedBookmarks = new List<BookmarkNode>();
             if (bookmarks != null)

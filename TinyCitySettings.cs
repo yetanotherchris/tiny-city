@@ -2,17 +2,20 @@ using System.Text.Json;
 
 namespace TinyCity
 {
+    
     public class TinyCitySettings
     {
         public List<string> MarkdownFiles { get; set; } = new List<string>();
 
         public string HomeDirectory { get; set; }
+
+        public string BrowserPath { get; set; } = BrowserKnownPaths.ChromePath;
         
         public static TinyCitySettings Load()
         {
             string homeDirectory = GetApplicationDirectory();
             var settings = new TinyCitySettings();
-            var configFilePath = Path.Combine(homeDirectory, "config.json");
+            var configFilePath = GetConfigFilePath();
             if (File.Exists(configFilePath))
             {
                 var json = File.ReadAllText(configFilePath);
@@ -20,15 +23,27 @@ namespace TinyCity
             }
 
             settings.HomeDirectory = homeDirectory;
+
+            // Ensure the config file exists
+            if (!File.Exists(configFilePath))
+            {
+                Save(settings);
+            }
+
             return settings;
         }
 
         public static void Save(TinyCitySettings settings)
         {
-            string homeDirectory = GetApplicationDirectory();
-            var configFilePath = Path.Combine(homeDirectory, "config.json");
+            var configFilePath = GetConfigFilePath();
             string json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(configFilePath, json);
+        }
+
+        public static string GetConfigFilePath()
+        {
+            string homeDirectory = GetApplicationDirectory();
+            return Path.Combine(homeDirectory, "config.json");
         }
 
         private static string GetApplicationDirectory()

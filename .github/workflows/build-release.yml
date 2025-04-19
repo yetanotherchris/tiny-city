@@ -73,6 +73,7 @@ jobs:
       with:
         tag_name: v${{ steps.get_version.outputs.MajorMinorPatch  }}
         name: Release v${{ steps.get_version.outputs.MajorMinorPatch  }}
+        generate_release_notes: true
         draft: false
         prerelease: false
         make_latest: true

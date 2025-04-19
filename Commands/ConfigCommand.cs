@@ -19,33 +19,39 @@ namespace TinyCity.Commands
         [CommandOption("-s|--show")]
         [Description("Show the current configuration.")]
         public bool Show { get; set; }
+
+        [CommandOption("-b|--set-browser")]
+        [Description("Set the browser type to search bookmarks from. Valid values are: chrome, opera, brave, edge.")]
+        public string Browser { get; set; }
     }
 
     public class ConfigCommand : Command<ConfigCommandSettings>
     {
-        private readonly TinyCitySettings _settings;
+        private readonly TinyCitySettings _tinyCitySettings;
         public ConfigCommand(TinyCitySettings settings)
         {
-            _settings = settings;
+            _tinyCitySettings = settings;
         }
 
         public override int Execute(CommandContext context, ConfigCommandSettings settings)
         {
             if (settings.Show)
             {
-                AnsiConsole.MarkupLine($"[bold green]Home Directory: {_settings.HomeDirectory}[/]");
-                AnsiConsole.MarkupLine($"[bold green]Markdown Files:[/]");
-                foreach (var file in _settings.MarkdownFiles)
+                AnsiConsole.MarkupLine($"[bold green]Loaded config file from: {TinyCitySettings.GetConfigFilePath()}[/]");
+                AnsiConsole.MarkupLine($"[green]- Home Directory: {_tinyCitySettings.HomeDirectory}[/]");
+                AnsiConsole.MarkupLine($"[green]- Browser path: {_tinyCitySettings.BrowserPath}[/]");
+                AnsiConsole.MarkupLine($"[green]- Markdown Files:[/]");
+                foreach (var file in _tinyCitySettings.MarkdownFiles)
                 {
                     AnsiConsole.MarkupLine($" - {file}");
                 }
             }
             else if (!string.IsNullOrEmpty(settings.AddMarkdownFile))
             {
-                if (!_settings.MarkdownFiles.Contains(settings.AddMarkdownFile))
+                if (!_tinyCitySettings.MarkdownFiles.Contains(settings.AddMarkdownFile))
                 {
-                    _settings.MarkdownFiles.Add(settings.AddMarkdownFile);
-                    TinyCitySettings.Save(_settings);
+                    _tinyCitySettings.MarkdownFiles.Add(settings.AddMarkdownFile);
+                    TinyCitySettings.Save(_tinyCitySettings);
                     AnsiConsole.MarkupLine($"[bold green]Added markdown file: {settings.AddMarkdownFile}[/]");
                 }
                 else
@@ -55,16 +61,41 @@ namespace TinyCity.Commands
             }
             else if (!string.IsNullOrEmpty(settings.RemoveMarkdownFile))
             {
-                if (_settings.MarkdownFiles.Contains(settings.RemoveMarkdownFile))
+                if (_tinyCitySettings.MarkdownFiles.Contains(settings.RemoveMarkdownFile))
                 {
-                    _settings.MarkdownFiles.Remove(settings.RemoveMarkdownFile);
-                    TinyCitySettings.Save(_settings);
+                    _tinyCitySettings.MarkdownFiles.Remove(settings.RemoveMarkdownFile);
+                    TinyCitySettings.Save(_tinyCitySettings);
                     AnsiConsole.MarkupLine($"[bold green]Removed markdown file: {settings.RemoveMarkdownFile}[/]");
                 }
                 else
                 {
                     AnsiConsole.MarkupLine($"[bold yellow]Markdown file '{settings.RemoveMarkdownFile}' wasn't found in the configuration.[/]");
                 }
+            }
+            else if (!string.IsNullOrEmpty(settings.Browser))
+            {
+                string browser = settings.Browser.ToLowerInvariant();
+                switch (browser)
+                {
+                    case "chrome":
+                        _tinyCitySettings.BrowserPath = BrowserKnownPaths.ChromePath;
+                        break;
+                    case "opera":
+                        _tinyCitySettings.BrowserPath = BrowserKnownPaths.OperaPath;
+                        break;
+                    case "brave":
+                        _tinyCitySettings.BrowserPath = BrowserKnownPaths.BravePath;
+                        break;
+                    case "edge":
+                        _tinyCitySettings.BrowserPath = BrowserKnownPaths.EdgePath;
+                        break;
+                    default:
+                        AnsiConsole.MarkupLine($"[bold red]Invalid browser type '{browser}'. Valid values are: chrome, opera, brave, edge.[/]");
+                        return 1;
+                }
+
+                AnsiConsole.MarkupLine($"[bold green]Set browser path to {_tinyCitySettings.BrowserPath }[/]");
+                TinyCitySettings.Save(_tinyCitySettings);
             }
 
             return 0;
