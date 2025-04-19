@@ -60,7 +60,7 @@ dotnet run --
 dotnet run -- ls
 dotnet run -- search "google" -urls
 dotnet run -- search "gmail"
-dotnet run -- search "openrouter" -- launch
+dotnet run -- search "openrouter" --launch
 ```
 
 ### Why the tinycity name?
