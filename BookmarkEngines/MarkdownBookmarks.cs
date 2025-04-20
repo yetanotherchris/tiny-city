@@ -19,11 +19,11 @@ namespace TinyCity.BookmarkEngines
                     var bookmarks = ParseMarkdownFile(file);
                     Bookmarks.AddRange(bookmarks);
 
-                    AnsiConsole.MarkupLine($" - Loaded {bookmarks.Count} bookmarks from '{file}'.");
+                    AnsiConsole.MarkupLine($" - Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
                 }
                 else
                 {
-                    AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{file}' so skipping.[/]");
+                    AnsiConsole.MarkupLine($"[bold yellow] -  Markdown bookmarks: couldn't find '{file}' so skipping.[/]");
                 }
             }
         }

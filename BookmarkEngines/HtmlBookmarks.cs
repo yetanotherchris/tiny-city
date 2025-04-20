@@ -19,18 +19,22 @@ namespace TinyCity.BookmarkEngines
         public HtmlBookmarks(TinyCitySettings settings)
         {
             string htmlFilePath = settings.HtmlBookmarksFile;
-            if (File.Exists(htmlFilePath))
+            if (string.IsNullOrEmpty(htmlFilePath))
             {
-                string html = File.ReadAllText(htmlFilePath);
-                var bookmarks = ParseHtmlFile(html).GetAwaiter().GetResult();
-                Bookmarks.AddRange(bookmarks);
+                AnsiConsole.MarkupLine($" - HTML bookmarks: no file specified in settings so skipping");
+                return;
+            }
+            else if (!File.Exists(htmlFilePath))
+            {
+                AnsiConsole.MarkupLine($"[bold yellow] - HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.[/]");
+                return;
+            }
 
-                AnsiConsole.MarkupLine($" - Loaded {bookmarks.Count} bookmarks from '{htmlFilePath}'.");
-            }
-            else
-            {
-                AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{htmlFilePath}' so skipping.[/]");
-            }
+            string html = File.ReadAllText(htmlFilePath);
+            var bookmarks = ParseHtmlFile(html).GetAwaiter().GetResult();
+            Bookmarks.AddRange(bookmarks);
+
+            AnsiConsole.MarkupLine($" - HTML bookmarks: loaded {bookmarks.Count} bookmarks from '{htmlFilePath}'.");
         }
 
         private async Task<List<BookmarkNode>> ParseHtmlFile(string html)
