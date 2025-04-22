@@ -16,7 +16,8 @@ namespace TinyCity.BookmarkEngines
             {
                 if (File.Exists(file))
                 {
-                    var bookmarks = ParseMarkdownFile(file);
+                    string markdown = File.ReadAllText(file);
+                    var bookmarks = ParseMarkdownFile(markdown);
                     Bookmarks.AddRange(bookmarks);
 
                     AnsiConsole.MarkupLine($" - Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
