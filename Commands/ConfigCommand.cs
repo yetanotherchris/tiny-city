@@ -70,27 +70,27 @@ namespace TinyCity.Commands
 
         private void ShowConfiguration()
         {
-            AnsiConsole.MarkupLine($"[deepskyblue1]Bookmark sources ({_bookmarkAggregator.AllBookmarks.Count} unique bookmarks in total):[/]");
+            AnsiConsole.MarkupLine($"[turquoise2]Bookmark sources ({_bookmarkAggregator.AllBookmarks.Count} unique bookmarks in total):[/]");
             _bookmarkAggregator.WriteLoadedLog();
 
-            AnsiConsole.MarkupLine($"[deepskyblue1]Configuration ('{TinyCitySettings.GetConfigFilePath()}'):[/]");
-            AnsiConsole.MarkupLine($" - Home Directory: {_tinyCitySettings.ApplicationConfigDirectory}.");
-            AnsiConsole.MarkupLine($" - Browser path: {_tinyCitySettings.BrowserPath}.");
+            AnsiConsole.MarkupLine($"[turquoise2]Configuration ('{TinyCitySettings.GetConfigFilePath()}'):[/]");
+            AnsiConsole.MarkupLine($" • Home Directory: {_tinyCitySettings.ApplicationConfigDirectory}.");
+            AnsiConsole.MarkupLine($" • Browser path: {_tinyCitySettings.BrowserPath}.");
 
             string htmlFilePath = _tinyCitySettings.HtmlBookmarksFile ?? "(none)";
-            AnsiConsole.MarkupLine($" - HTML bookmarkpath: {htmlFilePath}.");
+            AnsiConsole.MarkupLine($" • HTML bookmarkpath: {htmlFilePath}.");
 
             if (_tinyCitySettings.MarkdownFiles.Count > 0)
             {
-                AnsiConsole.MarkupLine($" - Markdown Files:");
+                AnsiConsole.MarkupLine($" • Markdown Files:");
                 foreach (var file in _tinyCitySettings.MarkdownFiles)
                 {
-                    AnsiConsole.MarkupLine($"   - {file}");
+                    AnsiConsole.MarkupLine($"   • {file}");
                 }
             }
             else
             {
-                AnsiConsole.MarkupLine($" - Markdown Files: (none)");
+                AnsiConsole.MarkupLine($" • Markdown Files: (none)");
             }
         }
 

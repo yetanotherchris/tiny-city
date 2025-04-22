@@ -43,7 +43,7 @@ namespace TinyCity.Commands
                 return 0;
             }
 
-            AnsiConsole.MarkupLine($"[bold deepskyblue1]{count} bookmark(s) found for '{settings.Query}'.[/]");
+            AnsiConsole.MarkupLine($"[bold turquoise2]{count} bookmark(s) found for '{settings.Query}'.[/]");
             foreach (var bookmark in filteredBookmarks)
             {
                 if (!string.IsNullOrEmpty(bookmark.Url))
@@ -53,14 +53,14 @@ namespace TinyCity.Commands
 
                     string link = $"[link={bookmarkUrl}]{bookmarkName}[/]";
                     string urlHost = new Uri(bookmark.Url).Host;
-                    AnsiConsole.MarkupLine($" - [bold chartreuse1]{link}[/] ({urlHost})");
+                    AnsiConsole.MarkupLine($" • [bold chartreuse1]{link}[/] ({urlHost})");
                 }
             }
 
             if (settings.Launch)
             {
                 var first = filteredBookmarks.FirstOrDefault();
-                AnsiConsole.MarkupLine($" - [bold green]Launching {first.Name}[/]");
+                AnsiConsole.MarkupLine($"[bold green]Launching '{first.Name}'[/]...");
 
                 var startInfo = new ProcessStartInfo
                 {

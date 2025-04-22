@@ -14,7 +14,7 @@ namespace TinyCity.BookmarkEngines
 
             if (!Path.Exists(bookmarksPath))
             {
-                _log = $" - Browser bookmarks: Couldn't find '{bookmarksPath}' so skipping.";
+                _log = $" • Browser bookmarks: Couldn't find '{bookmarksPath}' so skipping.";
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace TinyCity.BookmarkEngines
                 FlattenedBookmarks = [.. bookmarkBarNodes, .. otherNodes, .. syncedNodes];
             }
 
-            _log = $" - Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{bookmarksPath}'.";
+            _log = $" • Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{bookmarksPath}'.";
         }
 
         public string GetLog()

@@ -14,7 +14,7 @@ namespace TinyCity.BookmarkEngines
         {
             if (settings.MarkdownFiles.Count == 0)
             {
-                logItems.Add(" - Markdown bookmarks: no files specified in the settings.");
+                logItems.Add(" • Markdown bookmarks: no files specified in the settings.");
                 return;
             }
 
@@ -26,11 +26,11 @@ namespace TinyCity.BookmarkEngines
                     var bookmarks = ParseMarkdownFile(markdown);
                     Bookmarks.AddRange(bookmarks);
 
-                    logItems.Add($" - Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
+                    logItems.Add($" • Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
                 }
                 else
                 {
-                    logItems.Add($" - Markdown bookmarks: couldn't find '{file}' so skipping.");
+                    logItems.Add($" • Markdown bookmarks: couldn't find '{file}' so skipping.");
                 }
             }
         }

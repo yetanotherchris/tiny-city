@@ -20,7 +20,7 @@ namespace TinyCity.Commands
 
         public override int Execute(CommandContext context, ListCommandSettings settings)
         {
-            AnsiConsole.MarkupLine($"[bold deepskyblue1]{_combinedBookmarks.Count} unique bookmarks in total.[/]");
+            AnsiConsole.MarkupLine($"[bold turquoise2]{_combinedBookmarks.Count} unique bookmarks in total.[/]");
 
             foreach (var bookmark in _combinedBookmarks.OrderBy(x => x.Name))
             {
@@ -31,7 +31,7 @@ namespace TinyCity.Commands
 
                     string link = $"[link={bookmarkUrl}]{bookmarkName}[/]";
                     string urlHost = new Uri(bookmark.Url).Host;
-                    AnsiConsole.MarkupLine($" - [bold chartreuse1]{link}[/] ({urlHost})");
+                    AnsiConsole.MarkupLine($" • [bold chartreuse1]{link}[/] ({urlHost})");
                 }
             }
 
