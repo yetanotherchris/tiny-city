@@ -11,6 +11,18 @@ namespace TinyCity
     {
         async static Task<int> Main(string[] args)
         {
+            // https://api.github.com/repos/yetanotherchris/tiny-city/releases
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent", "vscode");
+            client.BaseAddress = new Uri("https://api.github.com");
+            var response = await client.GetAsync("/repos/yetanotherchris/tiny-city/releases");
+            
+            // tag_name
+            // assets[0].browser_download_url
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+            return 1;
+
+            
             var services = SetupIoC();
             using var registrar = new DependencyInjectionRegistrar(services);
             var app = new CommandApp(registrar);
