@@ -47,6 +47,7 @@ namespace TinyCity
             services.AddSingleton<ChromeBookmarks>();
             services.AddSingleton<MarkdownBookmarks>();
             services.AddSingleton<HtmlBookmarks>();
+            services.AddSingleton<BookmarkAggregator>();
             services.AddSingleton<TinyCitySettings>(settings);
 
             return services;

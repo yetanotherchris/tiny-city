@@ -13,16 +13,14 @@ namespace TinyCity.Commands
     {
         private List<BookmarkNode> _combinedBookmarks;
 
-        public ListCommand(ChromeBookmarks chromeBookmarks, MarkdownBookmarks markdownBookmarks, HtmlBookmarks htmlBookmarks)
+        public ListCommand(BookmarkAggregator bookmarkAggregator)
         {
-            _combinedBookmarks = new List<BookmarkNode>();
-            _combinedBookmarks = [.. chromeBookmarks.FlattenedBookmarks, .. markdownBookmarks.Bookmarks, .. htmlBookmarks.Bookmarks];
-            _combinedBookmarks = _combinedBookmarks.Distinct().ToList();
+            _combinedBookmarks = bookmarkAggregator.AllBookmarks;
         }
 
         public override int Execute(CommandContext context, ListCommandSettings settings)
         {
-            AnsiConsole.MarkupLine($"[bold green]{_combinedBookmarks.Count} unique bookmarks in total.[/]");
+            AnsiConsole.MarkupLine($"[bold deepskyblue1]{_combinedBookmarks.Count} unique bookmarks in total.[/]");
 
             foreach (var bookmark in _combinedBookmarks.OrderBy(x => x.Name))
             {
@@ -33,7 +31,7 @@ namespace TinyCity.Commands
 
                     string link = $"[link={bookmarkUrl}]{bookmarkName}[/]";
                     string urlHost = new Uri(bookmark.Url).Host;
-                    AnsiConsole.MarkupLine($"[bold chartreuse1]{link}[/] ({urlHost})");
+                    AnsiConsole.MarkupLine($" - [bold chartreuse1]{link}[/] ({urlHost})");
                 }
             }
 

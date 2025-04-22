@@ -1,5 +1,4 @@
-﻿using Spectre.Console;
-using TinyCity.Model;
+﻿using TinyCity.Model;
 using AngleSharp;
 using AngleSharp.Dom;
 
@@ -15,26 +14,30 @@ namespace TinyCity.BookmarkEngines
     public class HtmlBookmarks
     {
         public List<BookmarkNode> Bookmarks { get; set; } = new List<BookmarkNode>();
+        private string _log;
 
         public HtmlBookmarks(TinyCitySettings settings)
         {
             string htmlFilePath = settings.HtmlBookmarksFile;
             if (string.IsNullOrEmpty(htmlFilePath))
             {
-                AnsiConsole.MarkupLine($" - HTML bookmarks: no file specified in settings so skipping");
+                _log = " - HTML bookmarks: no file specified in the settings.";
                 return;
             }
             else if (!File.Exists(htmlFilePath))
             {
-                AnsiConsole.MarkupLine($"[bold yellow] - HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.[/]");
+                _log = $" - HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.";
                 return;
             }
 
             string html = File.ReadAllText(htmlFilePath);
             var bookmarks = ParseHtmlFile(html).GetAwaiter().GetResult();
             Bookmarks.AddRange(bookmarks);
+        }
 
-            AnsiConsole.MarkupLine($" - HTML bookmarks: loaded {bookmarks.Count} bookmarks from '{htmlFilePath}'.");
+        public string GetLog()
+        {
+            return _log;
         }
 
         private async Task<List<BookmarkNode>> ParseHtmlFile(string html)

@@ -2,6 +2,8 @@
 using Spectre.Console.Cli;
 using System.ComponentModel;
 using System.Linq;
+using TinyCity.BookmarkEngines;
+using TinyCity.Model;
 
 namespace TinyCity.Commands
 {
@@ -32,9 +34,12 @@ namespace TinyCity.Commands
     public class ConfigCommand : Command<ConfigCommandSettings>
     {
         private readonly TinyCitySettings _tinyCitySettings;
-        public ConfigCommand(TinyCitySettings settings)
+        private readonly BookmarkAggregator _bookmarkAggregator;
+
+        public ConfigCommand(TinyCitySettings settings, BookmarkAggregator bookmarkAggregator)
         {
             _tinyCitySettings = settings;
+            _bookmarkAggregator = bookmarkAggregator;
         }
 
         public override int Execute(CommandContext context, ConfigCommandSettings settings)
@@ -65,14 +70,27 @@ namespace TinyCity.Commands
 
         private void ShowConfiguration()
         {
-            AnsiConsole.MarkupLine($"[bold green]Loaded config file from: {TinyCitySettings.GetConfigFilePath()}[/]");
-            AnsiConsole.MarkupLine($"[green]- Home Directory: {_tinyCitySettings.ApplicationConfigDirectory}[/]");
-            AnsiConsole.MarkupLine($"[green]- Browser path: {_tinyCitySettings.BrowserPath}[/]");
-            AnsiConsole.MarkupLine($"[green]- HTML bookmarkpath: {_tinyCitySettings.HtmlBookmarksFile}[/]");
-            AnsiConsole.MarkupLine($"[green]- Markdown Files:[/]");
-            foreach (var file in _tinyCitySettings.MarkdownFiles)
+            AnsiConsole.MarkupLine($"[deepskyblue1]Bookmark sources ({_bookmarkAggregator.AllBookmarks.Count} unique bookmarks in total):[/]");
+            _bookmarkAggregator.WriteLoadedLog();
+
+            AnsiConsole.MarkupLine($"[deepskyblue1]Configuration ('{TinyCitySettings.GetConfigFilePath()}'):[/]");
+            AnsiConsole.MarkupLine($" - Home Directory: {_tinyCitySettings.ApplicationConfigDirectory}.");
+            AnsiConsole.MarkupLine($" - Browser path: {_tinyCitySettings.BrowserPath}.");
+
+            string htmlFilePath = _tinyCitySettings.HtmlBookmarksFile ?? "(none)";
+            AnsiConsole.MarkupLine($" - HTML bookmarkpath: {htmlFilePath}.");
+
+            if (_tinyCitySettings.MarkdownFiles.Count > 0)
             {
-                AnsiConsole.MarkupLine($" - {file}");
+                AnsiConsole.MarkupLine($" - Markdown Files:");
+                foreach (var file in _tinyCitySettings.MarkdownFiles)
+                {
+                    AnsiConsole.MarkupLine($"   - {file}");
+                }
+            }
+            else
+            {
+                AnsiConsole.MarkupLine($" - Markdown Files: (none)");
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿using Markdig;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using Spectre.Console;
 using TinyCity.Model;
 
 namespace TinyCity.BookmarkEngines
@@ -9,9 +8,16 @@ namespace TinyCity.BookmarkEngines
     public class MarkdownBookmarks
     {
         public List<BookmarkNode> Bookmarks { get; set; } = new List<BookmarkNode>();
+        private List<string> logItems = new List<string>();
 
         public MarkdownBookmarks(TinyCitySettings settings)
         {
+            if (settings.MarkdownFiles.Count == 0)
+            {
+                logItems.Add(" - Markdown bookmarks: no files specified in the settings.");
+                return;
+            }
+
             foreach (var file in settings.MarkdownFiles)
             {
                 if (File.Exists(file))
@@ -20,13 +26,18 @@ namespace TinyCity.BookmarkEngines
                     var bookmarks = ParseMarkdownFile(markdown);
                     Bookmarks.AddRange(bookmarks);
 
-                    AnsiConsole.MarkupLine($" - Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
+                    logItems.Add($" - Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
                 }
                 else
                 {
-                    AnsiConsole.MarkupLine($"[bold yellow] -  Markdown bookmarks: couldn't find '{file}' so skipping.[/]");
+                    logItems.Add($" - Markdown bookmarks: couldn't find '{file}' so skipping.");
                 }
             }
+        }
+
+        public List<string> GetLog()
+        {
+            return logItems;
         }
 
         private List<BookmarkNode> ParseMarkdownFile(string markdown)

@@ -1,5 +1,4 @@
-﻿using Spectre.Console;
-using System.Text.Json;
+﻿using System.Text.Json;
 using TinyCity.Model;
 
 namespace TinyCity.BookmarkEngines
@@ -7,6 +6,7 @@ namespace TinyCity.BookmarkEngines
     public class ChromeBookmarks
     {
         public List<BookmarkNode> FlattenedBookmarks { get; set; } = new List<BookmarkNode>();
+        private string _log;
 
         public ChromeBookmarks(TinyCitySettings settings)
         {
@@ -14,7 +14,7 @@ namespace TinyCity.BookmarkEngines
 
             if (!Path.Exists(bookmarksPath))
             {
-                AnsiConsole.MarkupLine($"[bold yellow] - Couldn't find '{bookmarksPath}' so skipping.[/]");
+                _log = $" - Browser bookmarks: Couldn't find '{bookmarksPath}' so skipping.";
                 return;
             }
 
@@ -34,7 +34,13 @@ namespace TinyCity.BookmarkEngines
 
                 FlattenedBookmarks = [.. bookmarkBarNodes, .. otherNodes, .. syncedNodes];
             }
-            AnsiConsole.MarkupLine($" - Loaded {FlattenedBookmarks.Count} bookmarks from '{bookmarksPath}'.");
+
+            _log = $" - Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{bookmarksPath}'.";
+        }
+
+        public string GetLog()
+        {
+            return _log;
         }
 
         static List<BookmarkNode> FlattenNodes(BookmarkNode bookmarkNode)
