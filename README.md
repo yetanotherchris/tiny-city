@@ -44,6 +44,7 @@ COMMANDS:
 
 ### Examples
 ```
+./tinycity config --help
 ./tinycity ls
 ./tinycity search "google.com" -urls #search using the url
 ./tinycity search "gmail"

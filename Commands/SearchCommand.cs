@@ -53,7 +53,10 @@ namespace TinyCity.Commands
             {
                 if (!string.IsNullOrEmpty(bookmark.Url))
                 {
-                    string link = $"[link={bookmark.Url}]{bookmark.Name}[/]";
+                    string bookmarkUrl = Markup.Escape(bookmark.Url);
+                    string bookmarkName = Markup.Escape(bookmark.Name);
+
+                    string link = $"[link={bookmarkUrl}]{bookmarkName}[/]";
                     string urlHost = new Uri(bookmark.Url).Host;
                     AnsiConsole.MarkupLine($"  - [bold chartreuse1]{link}[/] ({urlHost})");
                 }
