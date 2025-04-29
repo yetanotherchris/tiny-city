@@ -6,19 +6,17 @@ namespace TinyCity.BookmarkEngines
     public class ChromeBookmarks
     {
         public List<BookmarkNode> FlattenedBookmarks { get; set; } = new List<BookmarkNode>();
-        private string _log;
+        private string _log = "";
 
         public ChromeBookmarks(TinyCitySettings settings)
         {
-            string bookmarksPath = Path.Combine(settings.BrowserPath, "Bookmarks");
-
-            if (!Path.Exists(bookmarksPath))
+            EnsureBookmarksPath(settings);
+            if (string.IsNullOrEmpty(settings.BrowserBookmarkFullPath))
             {
-                _log = $" • Browser bookmarks: Couldn't find '{bookmarksPath}' so skipping.";
                 return;
             }
 
-            string json = File.ReadAllText(bookmarksPath);           
+            string json = File.ReadAllText(settings.BrowserBookmarkFullPath);           
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -35,12 +33,43 @@ namespace TinyCity.BookmarkEngines
                 FlattenedBookmarks = [.. bookmarkBarNodes, .. otherNodes, .. syncedNodes];
             }
 
-            _log = $" • Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{bookmarksPath}'.";
+            _log = $" ✅ Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{settings.BrowserBookmarkFullPath}'.";
         }
 
         public string GetLog()
         {
             return _log;
+        }
+
+        private void EnsureBookmarksPath(TinyCitySettings settings)
+        {
+            if (!string.IsNullOrEmpty(settings.BrowserBookmarkFullPath))
+            {
+                _log = $" ✅ Browser bookmarks: Using '{settings.BrowserBookmarkFullPath}'.";
+                return;
+            }
+
+            string[] directoriesToTry =
+            {
+                Path.Combine(settings.BrowserPath, "Default", "Bookmarks"),
+                Path.Combine(settings.BrowserPath, "Profile 1", "Bookmarks"),
+                Path.Combine(settings.BrowserPath, "Profile 2", "Bookmarks")
+            };
+
+            foreach (string path in directoriesToTry)
+            {
+                if (Path.Exists(path))
+                {
+                    _log += $"• Browser bookmarks: Found '{path}'.\n";
+                    settings.BrowserBookmarkFullPath = path;
+                    TinyCitySettings.Save(settings);
+                    return;
+                }
+
+                _log += $" ⚠️ Browser bookmarks: Couldn't find '{path}'.\n";
+            }
+
+            _log += $" ⚠️ Browser bookmarks: couldn't find a Browser bookmarks path, skipping.";
         }
 
         static List<BookmarkNode> FlattenNodes(BookmarkNode bookmarkNode)

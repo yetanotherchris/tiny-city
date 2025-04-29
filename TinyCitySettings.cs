@@ -10,7 +10,9 @@ namespace TinyCity
 
         public string BrowserPath { get; set; } = BrowserKnownPaths.ChromePath;
 
-        public string HtmlBookmarksFile { get; set; }
+        public string BrowserBookmarkFullPath { get; set; } = "";
+
+        public string HtmlBookmarksFile { get; set; } = "";
 
         public static TinyCitySettings Load()
         {

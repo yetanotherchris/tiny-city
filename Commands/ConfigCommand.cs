@@ -29,6 +29,11 @@ namespace TinyCity.Commands
         [CommandOption("-h|--html-bookmark-file")]
         [Description("Sets a HTML bookmark file to scan for links.")]
         public string HtmlBookmarkFile { get; set; }
+
+
+        [CommandOption("-p|--browser-bookmark-path")]
+        [Description("Sets a Browser bookmark path, if the default doesn't exist.")]
+        public string BrowserBookmarkPath { get; set; }
     }
 
     public class ConfigCommand : Command<ConfigCommandSettings>
@@ -64,6 +69,10 @@ namespace TinyCity.Commands
             {
                 SetHtmlBookmarkFile(settings.HtmlBookmarkFile);
             }
+            else if (!string.IsNullOrEmpty(settings.BrowserBookmarkPath))
+            {
+                SetBrowserBookmarkPath(settings.BrowserBookmarkPath);
+            }
 
             return 0;
         }
@@ -74,18 +83,18 @@ namespace TinyCity.Commands
             _bookmarkAggregator.WriteLoadedLog();
 
             AnsiConsole.MarkupLine($"[turquoise2]Configuration ('{TinyCitySettings.GetConfigFilePath()}'):[/]");
-            AnsiConsole.MarkupLine($" • Home Directory: {_tinyCitySettings.ApplicationConfigDirectory}.");
-            AnsiConsole.MarkupLine($" • Browser path: {_tinyCitySettings.BrowserPath}.");
+            AnsiConsole.MarkupLine($" • Home Directory: '{_tinyCitySettings.ApplicationConfigDirectory}'.");
+            AnsiConsole.MarkupLine($" • Browser path: '{_tinyCitySettings.BrowserPath}'.");
 
-            string htmlFilePath = _tinyCitySettings.HtmlBookmarksFile ?? "(none)";
-            AnsiConsole.MarkupLine($" • HTML bookmarkpath: {htmlFilePath}.");
+            string htmlFilePath = !string.IsNullOrEmpty(_tinyCitySettings.HtmlBookmarksFile) ? $"'{_tinyCitySettings.HtmlBookmarksFile}'" : "(none)";
+            AnsiConsole.MarkupLine($" • HTML bookmark path: {htmlFilePath}.");
 
             if (_tinyCitySettings.MarkdownFiles.Count > 0)
             {
                 AnsiConsole.MarkupLine($" • Markdown Files:");
                 foreach (var file in _tinyCitySettings.MarkdownFiles)
                 {
-                    AnsiConsole.MarkupLine($"   • {file}");
+                    AnsiConsole.MarkupLine($"   • '{file}'");
                 }
             }
             else
@@ -153,6 +162,13 @@ namespace TinyCity.Commands
             _tinyCitySettings.HtmlBookmarksFile = htmlBookmarkFile;
             TinyCitySettings.Save(_tinyCitySettings);
             AnsiConsole.MarkupLine($"[bold green]Added HTML bookmark file: {htmlBookmarkFile}[/]");
+        }
+
+        private void SetBrowserBookmarkPath(string bookmarkPath)
+        {
+            _tinyCitySettings.BrowserBookmarkFullPath = bookmarkPath;
+            TinyCitySettings.Save(_tinyCitySettings);
+            AnsiConsole.MarkupLine($"[bold green]Saved browser bookmark path: {bookmarkPath}[/]");
         }
     }
 }

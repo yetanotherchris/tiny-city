@@ -21,12 +21,12 @@ namespace TinyCity.BookmarkEngines
             string htmlFilePath = settings.HtmlBookmarksFile;
             if (string.IsNullOrEmpty(htmlFilePath))
             {
-                _log = " • HTML bookmarks: no file specified in the settings.";
+                _log = " 🚫 HTML bookmarks: no file specified in the settings.";
                 return;
             }
             else if (!File.Exists(htmlFilePath))
             {
-                _log = $" • HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.";
+                _log = $" ⚠️ HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.";
                 return;
             }
 
