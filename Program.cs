@@ -14,6 +14,8 @@ namespace TinyCity
     {
         async static Task<int> Main(string[] args)
         {
+            EnsureDownloadedBackupIsRemoved();
+
             var sw = Stopwatch.StartNew();
             Console.OutputEncoding = Encoding.UTF8; // emoji support
 
@@ -32,8 +34,17 @@ namespace TinyCity
                       .WithAlias("ls")
                       .WithDescription("List all bookmarks.");
 
+                config.AddCommand<UpdateCommand>("update")
+                      .WithDescription("Updates Tinycity, downloading the latest release from Github.");
+
                 config.AddCommand<ConfigCommand>("config")
                       .WithDescription("Configure bookmark sources.");
+
+                config.SetExceptionHandler((ex, resolver) =>
+                {
+                    AnsiConsole.WriteException(ex, ExceptionFormats.ShortenEverything);
+                    return 1;
+                });
             });
 
             int result = await app.RunAsync(args);
@@ -61,6 +72,15 @@ namespace TinyCity
             services.AddSingleton<TinyCitySettings>(settings);
 
             return services;
+        }
+
+        static void EnsureDownloadedBackupIsRemoved()
+        {
+            string backupFilename = $"{Environment.ProcessPath}.bak";
+            if (Path.Exists(backupFilename))
+            {
+                File.Delete(backupFilename);
+            }
         }
     }
 }
