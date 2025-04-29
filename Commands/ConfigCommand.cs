@@ -1,9 +1,7 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
-using System.Linq;
 using TinyCity.BookmarkEngines;
-using TinyCity.Model;
 
 namespace TinyCity.Commands
 {

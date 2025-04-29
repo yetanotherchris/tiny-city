@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Spectre.Console;
+using System.Text.Json;
 using TinyCity.Model;
 
 namespace TinyCity.BookmarkEngines
@@ -33,7 +34,7 @@ namespace TinyCity.BookmarkEngines
                 FlattenedBookmarks = [.. bookmarkBarNodes, .. otherNodes, .. syncedNodes];
             }
 
-            _log = $" ✅ Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{settings.BrowserBookmarkFullPath}'.";
+            _log = $" {Emoji.Known.CheckMarkButton} Browser bookmarks: Loaded {FlattenedBookmarks.Count} bookmarks from '{settings.BrowserBookmarkFullPath}'.";
         }
 
         public string GetLog()
@@ -45,7 +46,7 @@ namespace TinyCity.BookmarkEngines
         {
             if (!string.IsNullOrEmpty(settings.BrowserBookmarkFullPath))
             {
-                _log = $" ✅ Browser bookmarks: Using '{settings.BrowserBookmarkFullPath}'.";
+                _log = $" {Emoji.Known.CheckMarkButton} Browser bookmarks: Using '{settings.BrowserBookmarkFullPath}'.";
                 return;
             }
 
@@ -66,10 +67,10 @@ namespace TinyCity.BookmarkEngines
                     return;
                 }
 
-                _log += $" ⚠️ Browser bookmarks: Couldn't find '{path}'.\n";
+                _log += $" {Emoji.Known.Warning} Browser bookmarks: Couldn't find '{path}'.\n";
             }
 
-            _log += $" ⚠️ Browser bookmarks: couldn't find a Browser bookmarks path, skipping.";
+            _log += $" {Emoji.Known.Warning} Browser bookmarks: couldn't find a Browser bookmarks path, skipping.";
         }
 
         static List<BookmarkNode> FlattenNodes(BookmarkNode bookmarkNode)

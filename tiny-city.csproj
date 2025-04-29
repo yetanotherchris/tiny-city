@@ -1,30 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>TinyCity</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>true</SelfContained>
-    <PackageId>tinycity</PackageId>
-    <Authors>C.Small</Authors>
-    <Description>A command line tool for searching bookmarks</Description>
-    <AssemblyName>tinycity</AssemblyName>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>TinyCity</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<SelfContained>true</SelfContained>
+		<PackageId>tinycity</PackageId>
+		<Authors>C.Small</Authors>
+		<Description>A command line tool for searching bookmarks</Description>
+		<AssemblyName>tinycity</AssemblyName>
+		<PublishAot>false</PublishAot>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<SelfContained>true</SelfContained>
+		<PublishSingleFile>true</PublishSingleFile>
+		<OptimizationPreference>Speed</OptimizationPreference>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="anglesharp" Version="1.3.0" />
-    <PackageReference Include="GitVersion.MsBuild" Version="6.2.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="markdig" Version="0.40.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
-    <PackageReference Include="Spectre.Console" Version="0.50.0" />
-    <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
-    <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.7.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="anglesharp" Version="1.3.0" />
+		<PackageReference Include="GitVersion.MsBuild" Version="6.2.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="markdig" Version="0.40.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+		<PackageReference Include="Spectre.Console" Version="0.50.0" />
+		<PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
+		<PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.7.0" />
+	</ItemGroup>
 
 </Project>

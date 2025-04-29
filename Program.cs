@@ -1,5 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Spectre.Console;
 using Spectre.Console.Cli;
 using Spectre.Console.Cli.Extensions.DependencyInjection;
 using TinyCity.BookmarkEngines;
@@ -11,6 +14,9 @@ namespace TinyCity
     {
         async static Task<int> Main(string[] args)
         {
+            var sw = Stopwatch.StartNew();
+            Console.OutputEncoding = Encoding.UTF8; // emoji support
+
             var services = SetupIoC();
             using var registrar = new DependencyInjectionRegistrar(services);
             var app = new CommandApp(registrar);
@@ -30,7 +36,11 @@ namespace TinyCity
                       .WithDescription("Configure bookmark sources.");
             });
 
-            return await app.RunAsync(args);
+            int result = await app.RunAsync(args);
+            sw.Stop();
+            AnsiConsole.MarkupLine($"[italic]Took {sw.ElapsedMilliseconds}ms to complete.[/]");
+
+            return result;
         }
 
         static string GetVersion()

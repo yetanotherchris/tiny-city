@@ -1,6 +1,7 @@
 ﻿using TinyCity.Model;
 using AngleSharp;
 using AngleSharp.Dom;
+using Spectre.Console;
 
 namespace TinyCity.BookmarkEngines
 {
@@ -21,12 +22,12 @@ namespace TinyCity.BookmarkEngines
             string htmlFilePath = settings.HtmlBookmarksFile;
             if (string.IsNullOrEmpty(htmlFilePath))
             {
-                _log = " 🚫 HTML bookmarks: no file specified in the settings.";
+                _log = $" {Emoji.Known.Prohibited} HTML bookmarks: no file specified in the settings.";
                 return;
             }
             else if (!File.Exists(htmlFilePath))
             {
-                _log = $" ⚠️ HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.";
+                _log = $" {Emoji.Known.Warning} HTML bookmarks: couldn't find '{htmlFilePath}' so skipping.";
                 return;
             }
 

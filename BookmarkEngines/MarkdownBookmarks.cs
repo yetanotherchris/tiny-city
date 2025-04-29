@@ -1,6 +1,7 @@
 ﻿using Markdig;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using Spectre.Console;
 using TinyCity.Model;
 
 namespace TinyCity.BookmarkEngines
@@ -14,7 +15,7 @@ namespace TinyCity.BookmarkEngines
         {
             if (settings.MarkdownFiles.Count == 0)
             {
-                logItems.Add(" 🚫 Markdown bookmarks: no files specified in the settings.");
+                logItems.Add($" {Emoji.Known.Prohibited} Markdown bookmarks: no files specified in the settings.");
                 return;
             }
 
@@ -26,11 +27,11 @@ namespace TinyCity.BookmarkEngines
                     var bookmarks = ParseMarkdownFile(markdown);
                     Bookmarks.AddRange(bookmarks);
 
-                    logItems.Add($" ✅ Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
+                    logItems.Add($" {Emoji.Known.CheckMarkButton} Markdown bookmarks: Loaded {bookmarks.Count} bookmarks from '{file}'.");
                 }
                 else
                 {
-                    logItems.Add($" ⚠️ Markdown bookmarks: couldn't find '{file}' so skipping.");
+                    logItems.Add($" {Emoji.Known.Warning} Markdown bookmarks: couldn't find '{file}' so skipping.");
                 }
             }
         }
