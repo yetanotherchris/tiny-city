@@ -15,9 +15,11 @@ namespace TinyCity
         async static Task<int> Main(string[] args)
         {
             EnsureDownloadedBackupIsRemoved();
-
-            var sw = Stopwatch.StartNew();
             Console.OutputEncoding = Encoding.UTF8; // emoji support
+
+            var stopWatch = Stopwatch.StartNew();
+            var interceptor = new ExtraInfoInterceptor();
+            Exception capturedException = null;
 
             var services = SetupIoC();
             using var registrar = new DependencyInjectionRegistrar(services);
@@ -25,6 +27,7 @@ namespace TinyCity
             app.Configure(config =>
             {
                 config.SetApplicationVersion(GetVersion());
+                config.SetInterceptor(interceptor);
                 config.SetApplicationName("tinycity");
 
                 config.AddCommand<SearchCommand>("search")
@@ -42,15 +45,15 @@ namespace TinyCity
 
                 config.SetExceptionHandler((ex, resolver) =>
                 {
-                    AnsiConsole.WriteException(ex, ExceptionFormats.ShortenEverything);
-                    return 1;
+                    capturedException = ex;
                 });
             });
 
             int result = await app.RunAsync(args);
-            sw.Stop();
-            AnsiConsole.MarkupLine($"[italic]Took {sw.ElapsedMilliseconds}ms to complete.[/]");
-
+            
+            stopWatch.Stop();
+            interceptor.ShowOutput(stopWatch, capturedException);
+            
             return result;
         }
 

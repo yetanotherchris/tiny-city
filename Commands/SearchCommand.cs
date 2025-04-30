@@ -7,7 +7,7 @@ using TinyCity.Model;
 
 namespace TinyCity.Commands
 {
-    public class SearchCommandSettings : CommandSettings
+    public class SearchCommandSettings : BaseSettings
     {
         [CommandOption("-l|--launch")]
         [Description("Launch the first bookmark found din your default browser. If no bookmarks are found, nothing will happen.")]

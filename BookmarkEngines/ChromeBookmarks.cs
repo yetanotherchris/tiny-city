@@ -52,9 +52,9 @@ namespace TinyCity.BookmarkEngines
 
             string[] directoriesToTry =
             {
-                Path.Combine(settings.BrowserPath, "Default", "Bookmarks"),
-                Path.Combine(settings.BrowserPath, "Profile 1", "Bookmarks"),
-                Path.Combine(settings.BrowserPath, "Profile 2", "Bookmarks")
+                Path.Combine(BrowserKnownPaths.ChromePath, "Default", "Bookmarks"),
+                Path.Combine(BrowserKnownPaths.ChromePath, "Profile 1", "Bookmarks"),
+                Path.Combine(BrowserKnownPaths.ChromePath, "Profile 2", "Bookmarks")
             };
 
             foreach (string path in directoriesToTry)

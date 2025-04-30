@@ -5,11 +5,7 @@ using TinyCity.Model;
 
 namespace TinyCity.Commands
 {
-    public class ListCommandSettings : CommandSettings
-    {
-    }
-
-    public class ListCommand : Command<ListCommandSettings>
+    public class ListCommand : Command<BaseSettings>
     {
         private List<BookmarkNode> _combinedBookmarks;
 
@@ -18,7 +14,7 @@ namespace TinyCity.Commands
             _combinedBookmarks = bookmarkAggregator.AllBookmarks;
         }
 
-        public override int Execute(CommandContext context, ListCommandSettings settings)
+        public override int Execute(CommandContext context, BaseSettings settings)
         {
             AnsiConsole.MarkupLine($"[bold turquoise2]{_combinedBookmarks.Count} unique bookmarks in total.[/]");
 

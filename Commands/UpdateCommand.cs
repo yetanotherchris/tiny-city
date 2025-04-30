@@ -3,13 +3,9 @@ using Spectre.Console.Cli;
 
 namespace TinyCity.Commands
 {
-    public class UpdateCommandSettings : CommandSettings
+    public class UpdateCommand : Command<BaseSettings>
     {
-    }
-
-    public class UpdateCommand : Command<UpdateCommandSettings>
-    {
-        public override int Execute(CommandContext context, UpdateCommandSettings settings)
+        public override int Execute(CommandContext context, BaseSettings settings)
         {
             string fileUrl = "";
 

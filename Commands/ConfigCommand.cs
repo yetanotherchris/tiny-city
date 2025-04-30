@@ -5,8 +5,7 @@ using TinyCity.BookmarkEngines;
 
 namespace TinyCity.Commands
 {
-
-    public class ConfigCommandSettings : CommandSettings
+    public class ConfigCommandSettings : BaseSettings
     {
         [CommandOption("-a|--add-markdown-file")]
         [Description("Adds a markdown file to scan for links.")]
@@ -16,10 +15,6 @@ namespace TinyCity.Commands
         [Description("Remove a markdown file from the config.")]
         public string RemoveMarkdownFile { get; set; }
 
-        [CommandOption("-s|--show")]
-        [Description("Show the current configuration.")]
-        public bool Show { get; set; }
-
         [CommandOption("-b|--set-browser")]
         [Description("Set the browser type to search bookmarks from. Valid values are: chrome, opera, brave, edge.")]
         public string Browser { get; set; }
@@ -27,7 +22,6 @@ namespace TinyCity.Commands
         [CommandOption("-h|--html-bookmark-file")]
         [Description("Sets a HTML bookmark file to scan for links.")]
         public string HtmlBookmarkFile { get; set; }
-
 
         [CommandOption("-p|--browser-bookmark-path")]
         [Description("Sets a Browser bookmark path, if the default doesn't exist.")]
@@ -47,11 +41,7 @@ namespace TinyCity.Commands
 
         public override int Execute(CommandContext context, ConfigCommandSettings settings)
         {
-            if (settings.Show)
-            {
-                ShowConfiguration();
-            }
-            else if (!string.IsNullOrEmpty(settings.AddMarkdownFile))
+            if (!string.IsNullOrEmpty(settings.AddMarkdownFile))
             {
                 AddMarkdownFile(settings.AddMarkdownFile);
             }
@@ -71,7 +61,11 @@ namespace TinyCity.Commands
             {
                 SetBrowserBookmarkPath(settings.BrowserBookmarkPath);
             }
-
+            else
+            {
+                ShowConfiguration();
+            }
+            
             return 0;
         }
 
