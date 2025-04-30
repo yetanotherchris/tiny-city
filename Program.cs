@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using Spectre.Console;
 using Spectre.Console.Cli;
 using Spectre.Console.Cli.Extensions.DependencyInjection;
 using TinyCity.BookmarkEngines;
@@ -31,10 +30,11 @@ namespace TinyCity
                 config.SetApplicationName("tinycity");
 
                 config.AddCommand<SearchCommand>("search")
+                      .WithAlias("q")
                       .WithDescription("Search the bookmarks.");
 
-                config.AddCommand<ListCommand>("list")
-                      .WithAlias("ls")
+                config.AddCommand<ListCommand>("ls")
+                      .WithAlias("list")
                       .WithDescription("List all bookmarks.");
 
                 config.AddCommand<UpdateCommand>("update")

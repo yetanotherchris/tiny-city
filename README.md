@@ -38,16 +38,18 @@ OPTIONS:
 
 COMMANDS:
     search <query>    Search the bookmarks
-    list              List all bookmarks
+    ls                List all bookmarks
+    update            Updates Tinycity, downloading the latest release from Github
     config            Configure bookmark sources
 ```
 
 ### Examples
 ```
+./tinycity config # show the current config
 ./tinycity config --help
 ./tinycity ls
 ./tinycity search "google.com" -urls #search using the url
-./tinycity search "gmail"
+./tinycity q "gmail" # q is a shortcut for search
 ./tinycity search "openrouter" --launch
 ./tinycity config -b brave
 ./tinycity config -a more-bookmarks.md
