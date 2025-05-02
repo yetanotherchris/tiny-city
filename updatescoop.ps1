@@ -4,7 +4,7 @@ param(
 	$version
 )
 
-$search = "*publish\tinycity.exe"
+$search = "*publish/tinycity.exe"
 $tinyCityFile = Get-ChildItem -Path "./bin/Release/" -Force -Recurse -File | Where-Object { $_.FullName -like $search }
 $filePath = $tinyCityFile[0].FullName
 
