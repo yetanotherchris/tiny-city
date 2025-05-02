@@ -24,6 +24,12 @@ wget -O tinycity "https://github.com/yetanotherchris/tiny-city/releases/latest/d
 curl -o tinycity -L "https://github.com/yetanotherchris/tiny-city/releases/latest/download/tinycity"
 ```
 
+Scoop.sh on Windows:
+```
+scoop bucket add tinycity https://github.com/yetanotherchris/tiny-city/
+scoop install tinycity
+```
+
 You can also download the latest release directly from the [Releases page](https://github.com/yetanotherchris/tiny-city/releases).
 
 ## Usage

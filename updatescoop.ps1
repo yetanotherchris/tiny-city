@@ -19,7 +19,7 @@ Write-Output "{
       `"64bit`": {
           `"url`": `"https://github.com/yetanotherchris/tiny-city/releases/download/v$version/tinycity.exe`",
           `"bin`": [
-              `"tinycity/tinycity.exe`"
+              `"tinycity.exe`"
           ],
           `"hash`": `"$hash`"
       }
