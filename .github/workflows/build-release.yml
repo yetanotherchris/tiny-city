@@ -81,3 +81,14 @@ jobs:
             **/bin/Release/net*/linux-x64/publish/tinycity
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - id: scoop-file-update
+      name: scoop file version update
+      shell: pwsh
+      run: |
+        ./updatescoop.ps1 -Version ${{ steps.get_version.outputs.MajorMinorPatch  }}
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      name: Commit new scoop file
+      with:
+        commit_message: Update scoop file to version ${{ steps.get_version.outputs.MajorMinorPatch  }}

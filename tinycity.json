@@ -1,0 +1,15 @@
+{
+  "version": "1.0.31",
+  "architecture": {
+      "64bit": {
+          "url": "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.31/tinycity.exe",
+          "bin": [
+              "tinycity/tinycity.exe"
+          ],
+          "hash": "E894C4EDC634FA3C4E67942DD2D5A66D13091D47AA620A71E6B36365BEC800EE"
+      }
+  },
+  "homepage": "https://github.com/yetanotherchris/tiny-city",
+  "license": "MIT License",
+  "description": "A console app written that lists and searches your bookmarks files"
+}
