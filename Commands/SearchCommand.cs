@@ -1,7 +1,9 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Text;
 using TinyCity.BookmarkEngines;
 using TinyCity.Model;
 
@@ -22,6 +24,11 @@ namespace TinyCity.Commands
         [CommandArgument(0, "<query>")]
         [Description("The search term to look for in bookmarks. Enclose your search inside quotes, e.g. \"my search words\"")]
         public required string Query { get; set; }
+
+        [CommandOption("-e|--export")]
+        [Description("Exports the results as 'exported-bookmarks.md' to the same directory as tinycity.")]
+        [DefaultValue(false)]
+        public bool Export { get; set; }
     }
 
     public class SearchCommand : Command<SearchCommandSettings>
@@ -35,6 +42,7 @@ namespace TinyCity.Commands
 
         public override int Execute(CommandContext context, SearchCommandSettings settings)
         {
+            var stringBuilder = new StringBuilder();
             var filteredBookmarks = Search(settings.Query, settings.SearchUrls);
             int count = filteredBookmarks.Count;
             if (count == 0)
@@ -54,6 +62,7 @@ namespace TinyCity.Commands
                     string link = $"[link={bookmarkUrl}]{bookmarkName}[/]";
                     string urlHost = new Uri(bookmark.Url).Host;
                     AnsiConsole.MarkupLine($" • [bold chartreuse1]{link}[/] ({urlHost})");
+                    stringBuilder.AppendLine($"- [{Markup.Escape(bookmark.Name)}]({bookmark.Url}) ({urlHost})");
                 }
             }
 
@@ -70,6 +79,11 @@ namespace TinyCity.Commands
 
                 Process.Start(startInfo);
             }
+            else if (settings.Export)
+            {
+                File.WriteAllText("exported-bookmarks.md", stringBuilder.ToString());
+                AnsiConsole.MarkupLine($"[bold green]Exported search results to 'exported-bookmarks.md'[/].");
+            }
 
             return 0;
         }
@@ -82,12 +96,14 @@ namespace TinyCity.Commands
             {
                 return _combinedBookmarks
                       .Where(b => b.Name.ToLower().Contains(searchTerm) || (b.Url != null && b.Url.ToLower().Contains(searchTerm)))
+                      .OrderBy(x => x.Name)
                       .ToList();
             }
             else
             {
                 return _combinedBookmarks
                        .Where(b => b.Name.ToLower().Contains(searchTerm))
+                       .OrderBy(x => x.Name)
                        .ToList();
             }
         }
