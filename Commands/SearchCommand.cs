@@ -29,6 +29,11 @@ namespace TinyCity.Commands
         [Description("Exports the results as 'exported-bookmarks.md' to the same directory as tinycity.")]
         [DefaultValue(false)]
         public bool Export { get; set; }
+
+        [CommandOption("--export-format")]
+        [Description("When exporting, sets the format of each link")]
+        [DefaultValue("- [{name}]({url}) ({urlhost})")]
+        public string ExportFormat { get; set; }
     }
 
     public class SearchCommand : Command<SearchCommandSettings>
@@ -42,7 +47,7 @@ namespace TinyCity.Commands
 
         public override int Execute(CommandContext context, SearchCommandSettings settings)
         {
-            var stringBuilder = new StringBuilder();
+            var exportStringBuilder = new StringBuilder();
             var filteredBookmarks = Search(settings.Query, settings.SearchUrls);
             int count = filteredBookmarks.Count;
             if (count == 0)
@@ -62,7 +67,13 @@ namespace TinyCity.Commands
                     string link = $"[link={bookmarkUrl}]{bookmarkName}[/]";
                     string urlHost = new Uri(bookmark.Url).Host;
                     AnsiConsole.MarkupLine($" • [bold chartreuse1]{link}[/] ({urlHost})");
-                    stringBuilder.AppendLine($"- [{Markup.Escape(bookmark.Name)}]({bookmark.Url}) ({urlHost})");
+
+                    string exportLine = settings.ExportFormat
+                                                .Replace("{name}", Markup.Escape(bookmarkName))
+                                                .Replace("{url}", bookmarkUrl)
+                                                .Replace("{urlhost}", urlHost);
+
+                    exportStringBuilder.AppendLine(exportLine);
                 }
             }
 
@@ -81,7 +92,7 @@ namespace TinyCity.Commands
             }
             else if (settings.Export)
             {
-                File.WriteAllText("exported-bookmarks.md", stringBuilder.ToString());
+                File.WriteAllText("exported-bookmarks.md", exportStringBuilder.ToString());
                 AnsiConsole.MarkupLine($"[bold green]Exported search results to 'exported-bookmarks.md'[/].");
             }
 
