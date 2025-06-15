@@ -1,12 +1,12 @@
 {
-  "version": "1.0.32",
+  "version": "1.0.33",
   "architecture": {
       "64bit": {
-          "url": "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.32/tinycity.exe",
+          "url": "https://github.com/yetanotherchris/tiny-city/releases/download/v1.0.33/tinycity.exe",
           "bin": [
               "tinycity.exe"
           ],
-          "hash": "CC4804F0B80289CF227DFAEB27EEF1F89F84331DB006A9307EBDBC543984FEA7"
+          "hash": "8EAB5CF70BD096FCF052BBEF2552320178B7E4C09B1975AD0B84029D00C848DB"
       }
   },
   "homepage": "https://github.com/yetanotherchris/tiny-city",
